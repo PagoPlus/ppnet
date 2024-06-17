@@ -55,6 +55,9 @@ namespace PPNetwork
        * @brief A random number, set at boot.
        * 
        * Used by the server to detect when the board was restarted.
+       * 
+       * @note On ESP32 platforms, it is recommended to turn ON the WiFi to feed the random number generator.
+       *       Read more [here](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/random.html).
        */
       uint32_t bootId;
       /**

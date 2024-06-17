@@ -64,7 +64,7 @@ TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
   memset(&msg, 0x00, sizeof(msg));
 
   msg.kind = "foo";
-  msg.value = 1;
+  msg.value = 0; // by default value will be converted to 1
   ASSERT_EQ(ppnet.WriteMessage(msg), 9);
   ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x02, 0x94, 0xa3, 0x66, 0x6f, 0x6f, 0x01, 0x00, 0x00});
   serial.clearTransmittedData();

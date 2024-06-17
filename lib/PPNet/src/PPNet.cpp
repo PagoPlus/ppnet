@@ -36,14 +36,27 @@ size_t PPNet::WriteMessage(AnyMessage msg)
     if constexpr (std::is_same_v<T, HelloMessage>)
     {
       type = MessageType::HelloMessage;
-      HelloMessage &newMsg = std::forward<decltype(arg)>(arg);
+      HelloMessage newMsg = std::forward<decltype(arg)>(arg);
       newMsg.ppnetVersion = __PPNET_VERSION__;
+
+      assert(strlen(newMsg.uniqueId.c_str()) > 0);
+      assert(strlen(newMsg.boardIdentifier.c_str()) > 0);
+      assert(newMsg.version > 0);
+      assert(newMsg.boardVersion > 0);
+      assert(newMsg.ppnetVersion == __PPNET_VERSION__);
+      
       this->packer.pack(newMsg);
     }
     else if constexpr (std::is_same_v<T, SingleCounterMessage>)
     {
       type = MessageType::SingleCounterMessage;
-      this->packer.pack(std::forward<decltype(arg)>(arg));
+      SingleCounterMessage newMsg = std::forward<decltype(arg)>(arg);
+      assert(strlen(newMsg.kind.c_str()) > 0);
+      if (newMsg.value == 0) {
+        newMsg.value = 1;
+      }
+      
+      this->packer.pack(newMsg);
     }
     else
     {

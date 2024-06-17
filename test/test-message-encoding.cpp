@@ -20,14 +20,16 @@ protected:
 
 // std::cout << Hexdump(data.c_str(), data.size()) << std::endl;
 
-#define ASSERT_DATA_EQUALS(value, ...) \
-  do { \
+#define ASSERT_DATA_EQUALS(value, ...)                                             \
+  do                                                                               \
+  {                                                                                \
     std::vector<uint8_t> expected(std::begin(__VA_ARGS__), std::end(__VA_ARGS__)); \
-    ASSERT_GT(value.size(), 0); \
-    auto val = value.c_str(); \
-    for (size_t i = 0; i < value.size() && i < expected.size(); i++) { \
-      ASSERT_EQ(static_cast<uint8_t>(val[i]), expected[i]); \
-    } \
+    ASSERT_GT(value.size(), 0);                                                    \
+    auto val = value.c_str();                                                      \
+    for (size_t i = 0; i < value.size() && i < expected.size(); i++)               \
+    {                                                                              \
+      ASSERT_EQ(static_cast<uint8_t>(val[i]), expected[i]);                        \
+    }                                                                              \
   } while (0)
 
 TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
@@ -40,14 +42,14 @@ TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
   msg.kind = "foo";
   msg.value = 1;
   ASSERT_EQ(ppnet.WriteMessage(msg), 9);
-  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x66, 0x6f, 0x6f, 0x01, 0x00, 0x00});
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x02, 0x94, 0xa3, 0x66, 0x6f, 0x6f, 0x01, 0x00, 0x00});
   serial.clearTransmittedData();
 
   msg.kind = "bar";
   msg.value = 42;
   msg.duration_ms = 1500;
   ASSERT_EQ(ppnet.WriteMessage(msg), 11);
-  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x62, 0x61, 0x72, 0x2a, 0x00, 0xcd, 0x05, 0xdc});
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x02, 0x94, 0xa3, 0x62, 0x61, 0x72, 0x2a, 0x00, 0xcd, 0x05, 0xdc});
   serial.clearTransmittedData();
 
   msg.kind = "zaz";
@@ -55,6 +57,6 @@ TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
   msg.pulses = 42424242;
   msg.duration_ms = 1500;
   ASSERT_EQ(ppnet.WriteMessage(msg), 15);
-  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x7a, 0x61, 0x7a, 0x2a, 0xce, 0x02, 0x87, 0x57, 0xb2, 0xcd, 0x05, 0xdc});
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x02, 0x94, 0xa3, 0x7a, 0x61, 0x7a, 0x2a, 0xce, 0x02, 0x87, 0x57, 0xb2, 0xcd, 0x05, 0xdc});
   serial.clearTransmittedData();
 }

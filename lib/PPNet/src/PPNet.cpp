@@ -54,13 +54,10 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   case WriteTargetType::RAW:
     this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
     this->output->write(packer.data(), packer.size());
-    this->output->write(0x53);
-    this->output->write(0x53);
   case WriteTargetType::SUNTECH:
     this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
     this->output->write(packer.data(), packer.size());
-    this->output->write(0x53);
-    this->output->write(0x53);
+    this->output->write("\r\n");
   }
 
   return totalSize;

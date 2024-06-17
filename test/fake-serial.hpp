@@ -40,7 +40,7 @@ public:
 
   virtual size_t write(uint8_t data) override
   {
-    _transmittedData += static_cast<char>(data);
+    _transmittedData.push_back(static_cast<uint8_t>(data));
     _written = true;
     return 1;
   }
@@ -53,13 +53,13 @@ public:
 
     for (size_t i = 0; i < size; i++)
     {
-      _transmittedData += static_cast<char>(buffer[i]);
+      _transmittedData.push_back(static_cast<uint8_t>(buffer[i]));
     }
     _written = true;
     return size;
   }
 
-  std::string getTransmittedData()
+  std::vector<uint8_t> getTransmittedData()
   {
     return _transmittedData;
   }
@@ -70,6 +70,6 @@ public:
   }
 
 private:
-  std::string _transmittedData;
+  std::vector<uint8_t> _transmittedData;
   bool _written = false;
 };

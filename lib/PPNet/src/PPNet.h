@@ -57,7 +57,6 @@ namespace PPNetwork
        * Used by the server to detect when the board was restarted.
        */
       uint32_t bootId;
-
       /**
        * @brief The version of PPNet library.
        * 

@@ -27,9 +27,8 @@ constexpr bool validateWriteTargetType(WriteTargetType type)
 
 size_t PPNet::WriteMessage(AnyMessage msg)
 {
-  this->packer.clear();
-
   MessageType type;
+  this->packer.clear();
 
   auto visitor = [&](auto &&arg)
   {
@@ -37,7 +36,7 @@ size_t PPNet::WriteMessage(AnyMessage msg)
     if constexpr (std::is_same_v<T, HelloMessage>)
     {
       type = MessageType::HelloMessage;
-      HelloMessage newMsg = std::forward<decltype(arg)>(arg);
+      HelloMessage &newMsg = std::forward<decltype(arg)>(arg);
       newMsg.ppnetVersion = __PPNET_VERSION__;
       this->packer.pack(newMsg);
     }

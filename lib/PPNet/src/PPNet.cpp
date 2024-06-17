@@ -9,23 +9,33 @@ template<typename... Ts> struct always_false : std::false_type {};
 
 size_t PPNet::WriteMessage(AnyMessage msg)
 {
-  SyncMessage syncMsg;
+  this->packer.clear();
+
+  MessageType type;
 
   auto visitor = [&](auto &&arg)
   {
     using T = std::decay_t<decltype(arg)>;
     if constexpr (std::is_same_v<T, SingleCounterMessage>)
     {
-      syncMsg.code = MessageType::SingleCounterMessage;
-      syncMsg.data = std::forward<decltype(arg)>(arg);
+      type = MessageType::SingleCounterMessage;
+      this->packer.pack(std::forward<decltype(arg)>(arg));
     }
     else
     {
       static_assert(always_false<T>::value, "Unhandled type in WriteMessage");
     }
-
-    return 0;
   };
+  std::visit(visitor, msg);
 
-  return std::visit(visitor, msg);
+  // write to output
+  this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
+  this->output->write(packer.data(), packer.size());
+  this->output->write(0x53);
+  this->output->write(0x53);
+
+  auto totalSize = this->packer.size() + 3;
+  assert(totalSize < 255);
+
+  return totalSize;
 }

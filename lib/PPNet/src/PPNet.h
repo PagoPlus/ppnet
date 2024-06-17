@@ -66,17 +66,6 @@ namespace PPNetwork
   };
 
   /**
-   * @brief A struct representing a synchronized message to be sent to the server.
-   * 
-   * This struct is used internally to hold a message code and its associated data
-   * for the PagoPlus Network Communication layer.
-   */
-  struct SyncMessage {
-    MessageType code;
-    AnyMessage data;
-  };
-
-  /**
    * @brief Main class for PPNet.
    */
   class PPNet {
@@ -91,6 +80,7 @@ namespace PPNetwork
       size_t WriteMessage(AnyMessage msg);
     private:
       Stream* output;
+      MsgPack::Packer packer;
   };
 }
 

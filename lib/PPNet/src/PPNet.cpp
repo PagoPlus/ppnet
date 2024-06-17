@@ -6,6 +6,7 @@ using namespace PPNetwork;
 using namespace PPNetwork::Message;
 
 #pragma GCC diagnostic error "-Wswitch-enum"
+#pragma GCC diagnostic error "-Wswitch"
 
 template <typename... Ts>
 struct always_false : std::false_type

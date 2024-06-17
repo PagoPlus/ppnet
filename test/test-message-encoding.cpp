@@ -35,18 +35,19 @@ TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
   FakeSerial serial;
   PPNetwork::PPNet ppnet(&serial);
   PPNetwork::Message::SingleCounterMessage msg;
+  memset(&msg, 0x00, sizeof(msg));
 
   msg.kind = "foo";
   msg.value = 1;
-  ASSERT_EQ(ppnet.WriteMessage(msg), 10);
-  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x66, 0x6f, 0x6f, 0x01, 0x10, 0xcc, 0xf8});
+  ASSERT_EQ(ppnet.WriteMessage(msg), 9);
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x66, 0x6f, 0x6f, 0x01, 0x00, 0x00});
   serial.clearTransmittedData();
 
   msg.kind = "bar";
   msg.value = 42;
   msg.duration_ms = 1500;
   ASSERT_EQ(ppnet.WriteMessage(msg), 11);
-  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x62, 0x61, 0x72, 0x2a, 0x10, 0xcd, 0x05, 0xdc});
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01, 0x94, 0xa3, 0x62, 0x61, 0x72, 0x2a, 0x00, 0xcd, 0x05, 0xdc});
   serial.clearTransmittedData();
 
   msg.kind = "zaz";

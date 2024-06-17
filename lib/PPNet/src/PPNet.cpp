@@ -5,7 +5,24 @@
 using namespace PPNetwork;
 using namespace PPNetwork::Message;
 
-template<typename... Ts> struct always_false : std::false_type {};
+#pragma GCC diagnostic error "-Wswitch-enum"
+
+template <typename... Ts>
+struct always_false : std::false_type
+{
+};
+
+constexpr bool validateWriteTargetType(WriteTargetType type)
+{
+  switch (type)
+  {
+  case WriteTargetType::RAW:
+  case WriteTargetType::SUNTECH:
+    return true;
+  default:
+    return false;
+  }
+}
 
 size_t PPNet::WriteMessage(AnyMessage msg)
 {
@@ -32,11 +49,19 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   auto totalSize = this->packer.size() + 3;
   assert(totalSize < 255);
 
-  // write to output
-  this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
-  this->output->write(packer.data(), packer.size());
-  this->output->write(0x53);
-  this->output->write(0x53);
+  switch (this->targetType)
+  {
+  case WriteTargetType::RAW:
+    this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
+    this->output->write(packer.data(), packer.size());
+    this->output->write(0x53);
+    this->output->write(0x53);
+  case WriteTargetType::SUNTECH:
+    this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
+    this->output->write(packer.data(), packer.size());
+    this->output->write(0x53);
+    this->output->write(0x53);
+  }
 
   return totalSize;
 }

@@ -65,13 +65,19 @@ namespace PPNetwork
     SingleCounterMessage = 0x01,
   };
 
+  enum class WriteTargetType : uint8_t {
+    RAW = 0x01,
+    SUNTECH = 0x02
+  };
+
   /**
    * @brief Main class for PPNet.
    */
   class PPNet {
     public:
-      PPNet(Stream* output) {
+      PPNet(Stream* output, WriteTargetType targetType = WriteTargetType::RAW) {
         this->output = output;
+        this->targetType = targetType;
       };
       ~PPNet() {};
       /**
@@ -80,6 +86,7 @@ namespace PPNetwork
       size_t WriteMessage(AnyMessage msg);
     private:
       Stream* output;
+      WriteTargetType targetType;
       MsgPack::Packer packer;
   };
 }

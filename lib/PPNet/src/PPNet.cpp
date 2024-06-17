@@ -1,5 +1,12 @@
 #include "PPNet.h"
-#include <PPTypes.h>
 
-#define MSGPACK_DEBUGLOG_ENABLE
-#include <MsgPack.h>
+using namespace PPNetwork;
+using namespace PPNetwork::Message;
+
+size_t PPNet::WriteMessage(AnyMessage msg)
+{
+  std::visit([](auto&& arg) {
+    // std::cout << "Writing message: " << arg << std::endl;
+  }, msg);
+  return 0;
+}

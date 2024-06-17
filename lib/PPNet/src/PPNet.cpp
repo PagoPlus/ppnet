@@ -28,14 +28,15 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   };
   std::visit(visitor, msg);
 
+  // calculate package size
+  auto totalSize = this->packer.size() + 3;
+  assert(totalSize < 255);
+
   // write to output
   this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
   this->output->write(packer.data(), packer.size());
   this->output->write(0x53);
   this->output->write(0x53);
-
-  auto totalSize = this->packer.size() + 3;
-  assert(totalSize < 255);
 
   return totalSize;
 }

@@ -46,7 +46,7 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   std::visit(visitor, msg);
 
   // calculate package size
-  auto totalSize = this->packer.size() + 3;
+  auto totalSize = 1 + this->packer.size();
   assert(totalSize < 255);
 
   switch (this->targetType)
@@ -54,10 +54,14 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   case WriteTargetType::RAW:
     this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
     this->output->write(packer.data(), packer.size());
+    this->output->flush();
+    break;
   case WriteTargetType::SUNTECH:
     this->output->write(static_cast<uint8_t>(MessageType::SingleCounterMessage));
     this->output->write(packer.data(), packer.size());
     this->output->write("\r\n");
+    this->output->flush();
+    break;
   }
 
   return totalSize;

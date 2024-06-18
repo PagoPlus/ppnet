@@ -15,3 +15,12 @@
 	<img src="https://img.shields.io/github/languages/top/PagoPlus/ppnet?style=default&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/PagoPlus/ppnet?style=default&color=0080ff" alt="repo-language-count">
 <p>
+
+
+## How to Install
+
+Download the repo zip file, add it to your Arduino workflow and install `MsgPack` (dependency of PPNet).
+
+## How to Use
+
+Plase take a look at the [example](./examples/example-01/example-01.ino).

@@ -123,6 +123,10 @@ jobs:
           submodules: recursive
       - name: Setup Arduino CLI
         uses: arduino/setup-arduino-cli@v1
+      - name: Configure Arduino CLI
+        run: |
+          echo "library:" > ~/.arduino15/arduino-cli.yaml
+          echo "    enable_unsafe_install: true" >> ~/.arduino15/arduino-cli.yaml
       - name: Install platform
         run: |
           arduino-cli core update-index

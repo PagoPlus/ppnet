@@ -7,7 +7,7 @@
     <h1 align="center">PPNet</h1>
 </p>
 <p align="center">
-    <em>Streamline your connection, empower your code.</em>
+  <em>Streamline your connection, empower your boards.</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/PagoPlus/ppnet?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
@@ -15,4 +15,3 @@
 	<img src="https://img.shields.io/github/languages/top/PagoPlus/ppnet?style=default&color=0080ff" alt="repo-top-language">
 	<img src="https://img.shields.io/github/languages/count/PagoPlus/ppnet?style=default&color=0080ff" alt="repo-language-count">
 <p>
-

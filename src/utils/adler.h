@@ -8,8 +8,10 @@ namespace PPNetwork::Utils
 {
   uint32_t adler32(const std::vector<uint8_t> &data)
   {
-    const uint32_t MOD_ADLER = 65521;
+    constexpr uint32_t MOD_ADLER = 65521;
     uint32_t a = 1, b = 0;
+
+    if (data.empty()) return 1;
 
     for (uint8_t byte : data)
     {

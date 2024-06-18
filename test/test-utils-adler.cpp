@@ -29,3 +29,10 @@ TEST_F(AdlerTest, calculate_reverse)
   uint32_t checksum = PPNetwork::Utils::adler32(data);
   ASSERT_EQ(checksum, 3932176);
 }
+
+TEST_F(AdlerTest, calculate_empty)
+{
+  std::vector<uint8_t> data = {};
+  uint32_t checksum = PPNetwork::Utils::adler32(data);
+  ASSERT_EQ(checksum, 1);
+}

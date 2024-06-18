@@ -112,4 +112,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade platformio
       - name: PIO Build
-        run: pio ci lib/PPNet/examples/example-01 --lib lib/PPNet/ --project-conf lib/PPNet/examples/platformio.ini
+        run: pio ci examples/example-01/example-01.ino --lib . --project-conf examples/platformio.ini
+  
+  # build_demo01_arduino:
+  #   runs-on: ubuntu-latest
+  #   needs: [check, test_native]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         submodules: recursive
+  #     - name: Setup Arduino CLI
+  #       uses: arduino/setup-arduino-cli@v1
+  #     - name: Install platform
+  #       run: |
+  #         arduino-cli core update-index
+  #         arduino-cli core install esp32:esp32
+  #     - name: Compile Sketch
+  #       run: arduino-cli compile --fqbn esp32:esp32:esp32 ./blink

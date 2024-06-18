@@ -1,3 +1,4 @@
+#if defined(__PLATFORMIO_BUILD_DEBUG__)
 #include <PPNet.h>
 
 #ifndef PIO_UNIT_TESTING
@@ -26,3 +27,4 @@ int main() {
 #endif
 
 #endif // PIO_UNIT_TESTING
+#endif // PIO

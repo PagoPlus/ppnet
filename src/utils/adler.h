@@ -1,26 +1,26 @@
 #ifndef _PPNET_UTILS_ADLER_H
 #define _PPNET_UTILS_ADLER_H
 
-#include <vector>
-#include <stdint.h>
+#include <cstdint>
 
 namespace PPNetwork::Utils
 {
-  uint32_t adler32(const std::vector<uint8_t> &data)
+  uint32_t adler32(const uint8_t *data, size_t length)
   {
     constexpr uint32_t MOD_ADLER = 65521;
     uint32_t a = 1, b = 0;
 
-    if (data.empty()) return 1;
+    if (data == nullptr || length == 0)
+      return 1;
 
-    for (uint8_t byte : data)
+    for (size_t i = 0; i < length; ++i)
     {
-      a = (a + byte) % MOD_ADLER;
+      a = (a + data[i]) % MOD_ADLER;
       b = (b + a) % MOD_ADLER;
     }
 
     return (b << 16) | a;
   }
-} // ppnet::utils
+} // namespace PPNetwork::Utils
 
 #endif // _PPNET_UTILS_ADLER_H

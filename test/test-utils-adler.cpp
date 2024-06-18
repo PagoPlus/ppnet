@@ -18,21 +18,21 @@ protected:
 
 TEST_F(AdlerTest, calculate)
 {
-  std::vector<uint8_t> data = {0x01, 0x02, 0x03, 0x04, 0x05};
-  uint32_t checksum = PPNetwork::Utils::adler32(data);
+  uint8_t data[] = {0x01, 0x02, 0x03, 0x04, 0x05};
+  uint32_t checksum = PPNetwork::Utils::adler32(data, sizeof(data));
   ASSERT_EQ(checksum, 2621456);
 }
 
 TEST_F(AdlerTest, calculate_reverse)
 {
-  std::vector<uint8_t> data = {0x05, 0x04, 0x03, 0x02, 0x01};
-  uint32_t checksum = PPNetwork::Utils::adler32(data);
+  uint8_t data[] = {0x05, 0x04, 0x03, 0x02, 0x01};
+  uint32_t checksum = PPNetwork::Utils::adler32(data, sizeof(data));
   ASSERT_EQ(checksum, 3932176);
 }
 
 TEST_F(AdlerTest, calculate_empty)
 {
-  std::vector<uint8_t> data = {};
-  uint32_t checksum = PPNetwork::Utils::adler32(data);
+  uint8_t data[] = {};
+  uint32_t checksum = PPNetwork::Utils::adler32(data, sizeof(data));
   ASSERT_EQ(checksum, 1);
 }

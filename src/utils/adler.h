@@ -4,7 +4,7 @@
 #include <vector>
 #include <stdint.h>
 
-namespace ppnet::utils
+namespace PPNetwork::Utils
 {
   uint32_t adler32(const std::vector<uint8_t> &data)
   {

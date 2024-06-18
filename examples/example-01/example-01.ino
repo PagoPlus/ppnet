@@ -37,5 +37,13 @@ void setup()
 
 void loop()
 {
-  delay(500);
+  // send one fake message every 5 seconds
+  ppnet.WriteMessage(PPNetwork::Message::SingleCounterMessage {
+    .kind = "MIO/PEN",
+    .value = 1,
+    .pulses = 6,
+    .duration_ms = 5000
+  });
+
+  delay(5000);
 }

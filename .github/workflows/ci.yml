@@ -86,7 +86,7 @@ jobs:
       - name: PIO Build
         run: pio run -e native
 
-  build_demo01:
+  build_example01:
     runs-on: ubuntu-latest
     needs: [check, test_native]
     steps:
@@ -114,7 +114,7 @@ jobs:
       - name: PIO Build
         run: pio ci examples/example-01/example-01.ino --lib . --project-conf examples/platformio.ini
   
-  build_demo01_arduino:
+  build_example01_arduino:
     runs-on: ubuntu-latest
     needs: [check, test_native]
     steps:

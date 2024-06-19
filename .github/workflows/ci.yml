@@ -134,7 +134,7 @@ jobs:
           path: ~/Arduino
           key: ${{ runner.os }}-arduinolibs-
           restore-keys: |
-            ${{ runner.os }}-arduino-
+            ${{ runner.os }}-arduinolibs-
       - uses: arduino/compile-sketches@v1
         with:
           fqbn: "esp32:esp32:esp32"

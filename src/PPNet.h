@@ -10,6 +10,8 @@
 #include <MsgPack.h>
 #include <Stream.h>
 
+static_assert(__cplusplus >= 201703L, "PPNet needs at least a C++17 compatible compiler.");
+
 /**
  * @namespace PPNetwork
  * @brief PagoPlus Network Communication

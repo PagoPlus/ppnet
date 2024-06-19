@@ -19,13 +19,13 @@ void setup()
   WiFi.begin();
 
   // get our unique ID
-  char ssid[64];
-  snprintf(ssid, sizeof(ssid), "%llX", ESP.getEfuseMac());
+  char devId[64];
+  snprintf(devId, sizeof(devId), "%llX", ESP.getEfuseMac());
 
   // Since we just booted, we send a HELLO message to the server
   ppnet.WriteMessage(PPNetwork::Message::HelloMessage {
     // our unique board ID
-    .uniqueId = ssid,
+    .uniqueId = devId,
     // the name of the board
     .boardIdentifier = "DemoBoard",
     // our current system version

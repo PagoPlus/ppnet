@@ -6,7 +6,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Cache pip
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: check
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Cache pip
@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check, test_native]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Cache pip
@@ -90,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check, test_native]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Cache pip
@@ -118,7 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check, test_native]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Setup Arduino CLI

@@ -6,6 +6,8 @@
 #include <variant>
 #include <iostream>
 #include <string>
+#include <cstdint>
+#include <stddef.h>
 
 #include <MsgPack.h>
 #include <Stream.h>

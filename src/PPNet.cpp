@@ -20,6 +20,7 @@ constexpr bool validateWriteTargetType(WriteTargetType type)
   {
   case WriteTargetType::RAW:
   case WriteTargetType::SUNTECH:
+  case WriteTargetType::AOVX:
     return true;
   default:
     return false;

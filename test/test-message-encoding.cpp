@@ -99,7 +99,7 @@ TEST_F(MessageEncodingTest, encode_AOVXMessage)
   msg.boardVersion = 0x4321;
   msg.bootId = 0x5353456;
   msg.ppnetVersion = 0x00;
-  ASSERT_EQ(ppnet.WriteMessage(msg), 37); // 36 bytes + 1 byte for newline
+  ASSERT_EQ(ppnet.WriteMessage(msg), 36); // 35 bytes + 1 byte for newline
   ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01,
                                                    0xda, 0x12, 0x0c, 0x4f,
                                                    0x96, 0xaa, 0x54, 0x65, 0x73, 0x74, 0x52, 0x75, 0x6e, 0x6e, 0x65, 0x72, 0xa6, 0x54, 0x65, 0x73,

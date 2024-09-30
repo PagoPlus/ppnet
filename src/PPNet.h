@@ -166,6 +166,7 @@ namespace PPNetwork
     Stream *output;
     WriteTargetType targetType;
     MsgPack::Packer packer;
+    unsigned long lastMessageTime = 0; // New member to store the last message timestamp
   };
 }
 

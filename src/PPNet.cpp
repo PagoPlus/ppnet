@@ -91,11 +91,19 @@ size_t PPNet::WriteMessage(AnyMessage msg)
     this->output->flush();
     break;
   case WriteTargetType::AOVX:
-    this->output->write(static_cast<uint8_t>(type));
-    this->output->write(checksum_arr, 4);
-    this->output->write(packer.data(), packer.size());
-    this->output->write("\n");
-    this->output->flush();
+    {
+      unsigned long currentTime = millis();
+      unsigned long elapsedTime = currentTime - this->lastMessageTime;
+      if (elapsedTime < 120) {
+        delay(120 - elapsedTime);
+      }
+      this->output->write(static_cast<uint8_t>(type));
+      this->output->write(checksum_arr, 4);
+      this->output->write(packer.data(), packer.size());
+      this->output->write("\n");
+      this->output->flush();
+      this->lastMessageTime = millis(); // Update the last message timestamp
+    }
     break;
   }
 

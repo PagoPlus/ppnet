@@ -85,3 +85,25 @@ TEST_F(MessageEncodingTest, encode_SingleCounterMessage)
   ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x02, 0x31, 0xfe, 0x06, 0xc5, 0x94, 0xa3, 0x7a, 0x61, 0x7a, 0x2a, 0xce, 0x02, 0x87, 0x57, 0xb2, 0xcd, 0x05, 0xdc});
   serial.clearTransmittedData();
 }
+
+TEST_F(MessageEncodingTest, encode_AOVXMessage)
+{
+  FakeSerial serial;
+  PPNetwork::PPNet ppnet(&serial, PPNetwork::WriteTargetType::AOVX);
+  PPNetwork::Message::HelloMessage msg;
+  memset(&msg, 0x00, sizeof(msg));
+
+  msg.uniqueId = "TestRunner";
+  msg.boardIdentifier = "Tester";
+  msg.version = 0x1234;
+  msg.boardVersion = 0x4321;
+  msg.bootId = 0x5353456;
+  msg.ppnetVersion = 0x00;
+  ASSERT_EQ(ppnet.WriteMessage(msg), 37); // 36 bytes + 1 byte for newline
+  ASSERT_DATA_EQUALS(serial.getTransmittedData(), {0x01,
+                                                   0xda, 0x12, 0x0c, 0x4f,
+                                                   0x96, 0xaa, 0x54, 0x65, 0x73, 0x74, 0x52, 0x75, 0x6e, 0x6e, 0x65, 0x72, 0xa6, 0x54, 0x65, 0x73,
+                                                   0x74, 0x65, 0x72, 0xcd, 0x12, 0x34, 0xcd, 0x43, 0x21, 0xce, 0x05, 0x35, 0x34, 0x56,
+                                                   0x01, 0x0a}); // 0x0a is the newline character
+  serial.clearTransmittedData();
+}

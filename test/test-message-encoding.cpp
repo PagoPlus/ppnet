@@ -5,12 +5,16 @@
 
 #include "fake-serial.hpp"
 #include "hexdump.hpp"
+#include "mock-arduino.h"
+
+using namespace MockArduino;
 
 class MessageEncodingTest : public ::testing::Test
 {
 protected:
   void SetUp() override
   {
+    setMillis(0);
   }
 
   void TearDown() override
@@ -96,10 +100,11 @@ TEST_F(MessageEncodingTest, check_AOVX_pause)
   msg.kind = "test";
   msg.value = 1;
 
-  unsigned long startTime = millis();
+  setMillis(0);
   ASSERT_EQ(ppnet.WriteMessage(msg), 13);
+  advanceMillis(120);
   ASSERT_EQ(ppnet.WriteMessage(msg), 13);
   unsigned long endTime = millis();
 
-  ASSERT_GE(endTime - startTime, 120);
+  ASSERT_GE(endTime, 120);
 }

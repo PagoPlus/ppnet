@@ -141,7 +141,8 @@ namespace PPNetwork
   enum class WriteTargetType : uint8_t
   {
     RAW = 0x01,
-    SUNTECH = 0x02
+    SUNTECH = 0x02,
+    AOVX = 0x03
   };
 
   /**
@@ -165,6 +166,7 @@ namespace PPNetwork
     Stream *output;
     WriteTargetType targetType;
     MsgPack::Packer packer;
+    unsigned long lastMessageTime = 0; // New member to store the last message timestamp
   };
 }
 

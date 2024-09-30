@@ -2,6 +2,7 @@
 #include "utils/adler.h"
 
 #include <variant>
+#include <Arduino.h>
 
 using namespace PPNetwork;
 using namespace PPNetwork::Message;
@@ -20,6 +21,7 @@ constexpr bool validateWriteTargetType(WriteTargetType type)
   {
   case WriteTargetType::RAW:
   case WriteTargetType::SUNTECH:
+  case WriteTargetType::AOVX:
     return true;
   default:
     return false;
@@ -68,7 +70,6 @@ size_t PPNet::WriteMessage(AnyMessage msg)
 
   // calculate package size (1=code, 4=checksum, rest=payload)
   auto totalSize = 1 + 4 + this->packer.size();
-  assert(totalSize < 255);
 
   auto checksum = PPNetwork::Utils::adler32(packer.data(), packer.size());
   uint8_t checksum_arr[4] = {0};
@@ -77,17 +78,35 @@ size_t PPNet::WriteMessage(AnyMessage msg)
   switch (this->targetType)
   {
   case WriteTargetType::RAW:
+    assert(totalSize < 255);
     this->output->write(static_cast<uint8_t>(type));
     this->output->write(checksum_arr, 4);
     this->output->write(packer.data(), packer.size());
     this->output->flush();
     break;
   case WriteTargetType::SUNTECH:
+    assert(totalSize < 255);
     this->output->write(static_cast<uint8_t>(type));
     this->output->write(checksum_arr, 4);
     this->output->write(packer.data(), packer.size());
     this->output->write("\r\n");
     this->output->flush();
+    break;
+  case WriteTargetType::AOVX:
+    assert(totalSize < 511);
+    {
+      unsigned long currentTime = millis();
+      unsigned long elapsedTime = currentTime - this->lastMessageTime;
+      if (elapsedTime < 120) {
+        delay(120 - elapsedTime);
+      }
+      this->output->write(static_cast<uint8_t>(type));
+      this->output->write(checksum_arr, 4);
+      this->output->write(packer.data(), packer.size());
+      this->output->write("\n");
+      this->output->flush();
+      this->lastMessageTime = millis(); // Update the last message timestamp
+    }
     break;
   }
 

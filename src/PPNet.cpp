@@ -2,6 +2,7 @@
 #include "utils/adler.h"
 
 #include <variant>
+#include <Arduino.h>
 
 using namespace PPNetwork;
 using namespace PPNetwork::Message;
